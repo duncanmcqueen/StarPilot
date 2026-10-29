@@ -75,7 +75,9 @@ from openpilot.starpilot.controllers.toyota_cruise import capability as toyota_c
 
 
 BOOL_DEFAULTS = {
-  "GMPedalLongitudinal": False, "ForceStops": False, "AlwaysAllowUploads": False, "TurnAssist": True,
+  "GMPedalLongitudinal": False,
+  "TorqueInterceptorEnabled": True, "RadarInterceptorEnabled": False, "NoMRCC": False,
+  "NoFSC": False, "BlendedACC": True, "ManualTransmission": False, "ForceStops": False, "AlwaysAllowUploads": False, "TurnAssist": True,
   "SubaruAvhStartup": False,
   "SubaruStopStartOff": False,
   "SubaruSNG": False,
@@ -1441,6 +1443,8 @@ class FeatureSettingsOwner:
     elif key.startswith(LONG_PREFIX):
       source_key = PERSONALITY_PROFILES_PARAM
       group = "long"
+    elif key in ("TorqueInterceptorEnabled", "RadarInterceptorEnabled", "NoMRCC", "NoFSC", "BlendedACC", "ManualTransmission"):
+      source_key, group = key, "vehicle"
     elif key in BOOL_DEFAULTS or key in FLOAT_SPECS or key in (SLC_PRIORITY, SLC_SECONDARY):
       source_key = key
       long_key = (key in ("CustomPersonalities", "ForceStops", "ForceStopDistanceOffset") or "Personality" in key or
